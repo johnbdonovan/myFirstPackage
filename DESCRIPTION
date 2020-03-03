@@ -1,0 +1,14 @@
+Package: myFirstPackage
+Title: Package for STAT 302
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "John",
+           family = "Donovan",
+           role = c("aut", "cre"),
+           email = "johnbdonovan13@gmail.com",
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: Sample package created for STAT 302 at UW.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.0.2
