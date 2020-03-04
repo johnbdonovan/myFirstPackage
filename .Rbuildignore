@@ -1,2 +1,3 @@
 ^myFirstPackage\.Rproj$
 ^\.Rproj\.user$
+^\.travis\.yml$
