@@ -21,7 +21,7 @@ This function calculates MSE erros of a random forest prediction of given
 }
 \examples{
 my_rf_cv(my_gapminder, 2)
-my_rf_cv(my_iris, 5)
+my_rf_cv(my_gapminder, 5)
 
 }
 \keyword{prediction}

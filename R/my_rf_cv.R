@@ -12,7 +12,7 @@
 #'
 #' @examples
 #' my_rf_cv(my_gapminder, 2)
-#' my_rf_cv(my_iris, 5)
+#' my_rf_cv(my_gapminder, 5)
 #'
 #' @import randomForest
 #'

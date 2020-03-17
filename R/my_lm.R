@@ -38,7 +38,7 @@ my_lm <- function(formula, data) {
   # Returns data frame of estimates of linear model values, along with the
   # standard errors, test-statistics and p-values for each estimate
   return(data.frame("Estimate" = beta,
-                    "Std. Error" = se,
-                    "t value" = tStats,
+                    "Std.Error" = se,
+                    "t_value" = tStats,
                     "Pr(>|t|)" = pVals))
 }
