@@ -4,6 +4,7 @@
   <!-- badges: end -->
   
 #Installation
+
 To download myFirstPackage package, use the code below
 ```
 # install.packages("devtools")
@@ -12,6 +13,7 @@ library(myFirstPackage)
 ```
   
 #Use
+
 The vignette demonstrates example usage of four main functions. You can see the
 by using the following code
 ```
