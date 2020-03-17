@@ -3,7 +3,7 @@
   [![Codecov test coverage](https://codecov.io/gh/johnbdonovan/myFirstPackage/branch/master/graph/badge.svg)](https://codecov.io/gh/johnbdonovan/myFirstPackage?branch=master)
   <!-- badges: end -->
   
-#Installation
+# Installation
 
 To download myFirstPackage package, use the code below
 ```
@@ -12,7 +12,7 @@ devtools::install_github("johnbdonovan/myFirstPackage")
 library(myFirstPackage)
 ```
   
-#Use
+# Use
 
 The vignette demonstrates example usage of four main functions. You can see the
 by using the following code
