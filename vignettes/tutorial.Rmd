@@ -8,13 +8,52 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r, echo = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 ```
 
-```{r setup}
-library(myFirstPackage)
+Here, we introduce \texttt{myFirstPackage}, a package I made for a STAT302 final
+project.
+
+Install \texttt{myFirstPackage} using:
+```{r, eval = FALSE}
+devtools::install_github("johnbdonovan/myFirstPackage")
 ```
+
+To begin, we load our example data set as a \texttt{gapminder} object. We will
+also need the \texttt{tidyverse} package.
+```{r, message = FALSE}
+library(myFirstPackage)
+library(gapminder)
+library(tidyverse)
+```
+
+# Conducting a t-test
+Using the LifeExp data from gapminder we will conduct a t-test of 
+$H_0 : \mu = 60$
+$H_a : \mu \neq 60$
+```{r}
+data_t <- gapminder$lifeExp
+my_t_test(data_t, "two.sided", 60)
+```
+
+Using the LifeExp data from gapminder we will conduct  a t-test of 
+$H_0 : \mu = 60$
+$H_a : \mu < 60$
+```{r}
+my_t_test(data_t, "less", 60)
+```
+
+Using the LifeExp data from gapminder we will conduct  a t-test of 
+$H_0 : \mu = 60$
+$H_a : \mu > 60$
+```{r}
+my_t_test(data_t, "greater", 60)
+```
+
+# Creating a linear regression model
+
+Using the lifeExp data from gapminder as a response variable and gdpPercap and 
