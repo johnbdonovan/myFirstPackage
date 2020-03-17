@@ -32,50 +32,101 @@ library(randomForest)
 ```
 
 # Conducting a t-test
+
 Using the LifeExp data from gapminder we will conduct a t-test of 
 $H_0 : \mu = 60$
 $H_a : \mu \neq 60$
 ```{r}
+# Sets data
 data_t <- my_gapminder$lifeExp
+# Conducts t-test
 my_t_test(data_t, "two.sided", 60)
 ```
+
+Considering a significance level of $\alpha = 0.05$, we cannot reject the null
+hypothesis as the p-value > 0.05
 
 Using the LifeExp data from gapminder we will conduct  a t-test of 
 $H_0 : \mu = 60$
 $H_a : \mu < 60$
 ```{r}
+# Conducts t-test
 my_t_test(data_t, "less", 60)
 ```
+
+Considering a significance level of $\alpha = 0.05$, we can reject the null
+hypothesis as the p-value < 0.05.
 
 Using the LifeExp data from gapminder we will conduct  a t-test of 
 $H_0 : \mu = 60$
 $H_a : \mu > 60$
 ```{r}
+# Conducts t test
 my_t_test(data_t, "greater", 60)
 ```
+
+Considering a significance level of $\alpha = 0.05$, we cannot reject the null
+hypothesis as the p-value > 0.05
 
 # Creating a linear regression model
 
 Using the lifeExp data from gapminder as a response variable and gdpPercap and 
-continent as explanatory variables.
+continent as explanatory variables, we can construct a linear model.
 ```{r}
+# Generates linear regression model
 my_lm(lifeExp ~ gdpPercap + continent, my_gapminder)
 ```
 
+The values of the coefficient corresponding to gdpPercap is the approximate 
+change in GDP per Capita per every 1 unit change in Life Expectancy. The 
+hypothesis test associated with the gdpPercap coefficient is 
+$H_0 : \mu = 0$
+$H_a : \mu \neq 0$
+At a significance level of $\alpha = 0.05$, we can reject the null hypothesis as
+the p-value is far less than this. This implies that GDP per Capita does have
+a significant impact on the values of Life Expectancy.
+
+We can also plot these predictions against the actual values in order to 
+evaluate the strength of our model.
+
 ```{r}
+# Generates model
 lm <- my_lm(lifeExp ~ gdpPercap + continent, my_gapminder)
+# Creates prediction points from model
 model <- model.matrix(lifeExp ~ gdpPercap + continent,
                       my_gapminder)%*%lm$Estimate
-ggplot(data = cbind(my_gapminder, model), aes(x = model, y = lifeExp) ) +
-  geom_point()
+# Plots actual values against predictions
+ggplot(data = cbind(my_gapminder, model) %>% rename(Continent = continent), 
+       aes(x = model, y = lifeExp, color = Continent) ) +
+  # Creates plots
+  geom_point() +
+  # Sets lables
+  labs(title = "Actual vs. Fitted Life Expectancy", 
+       x = "Fitted", y = "Actual") +
+  # Resets theme
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"), 
+        axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),
+        panel.spacing.x = unit(0.75, "cm"))
 ```
 
+It is evident that the relationship between GDP per Capita and Life Expectancy
+is not linear by the nearly vertical curves of the graph. However, the trend 
+does appear similar across the continents.
 
-# Predicting with K-nearest neighbors
+
+# Evaluating Predictions of K-nearest Neighbors
+
+We can create multiple k-nearest neighbors predictions for continent based upon
+gdpPercap and lifeExp for multiple numbers of folds, and evaluate our models 
+based upon the training errors and cross-validation errors of the various 
+predictions.
 
 ```{r}
+# Initializes empty vector
 CV <- numeric(10)
+# Initializes empty vector
 Train <- numeric(10)
+# Calculates cv and training errors for various folds of 5-nearest neighbors
 for (n in 1:10) {
   CV[n] <- my_knn_cv(cbind(my_gapminder$gdpPercap, my_gapminder$lifeExp), 
           my_gapminder$continent, n, 5)$cv_err
@@ -85,23 +136,69 @@ for (n in 1:10) {
 cbind(CV, Train)
 ```
 
-# Predicting with Random Forest
+Based solely on training error, one would likely choose k = 1 for their model, 
+or as low a value as they considered resonable (considering k = 1 is not much of
+a predictor). However, in practice I would tend to choose the model around 
+k = 10, based upon the cross-validation error. This is because training errors 
+carry a good deal of inherent bias as they are based on models trained 
+specifically for an individual set of data. Cross-validation seeks to mitigate 
+this bias by evaluating errors on sets that it was not trained on to better
+ascertain the usefulness of future predictions.
+
+# Comparing Various Random Forest Models
+
+We can construct multiple random forests that predict LifeExp from gdpPercap, in
+order to comapre the various CVs obtained from different numbers of leafs
 
 ```{r}
+# Initialize three length 30 vectors
 CV_2 <- 1:30
 CV_5 <- 1:30
 CV_10<- 1:30
+# Fill vectors with random cv errors of various random forests of same folds
 for (k in 1:30) {
   CV_2[k] <- my_rf_cv(my_gapminder, 2)
   CV_5[k] <- my_rf_cv(my_gapminder, 5)
   CV_10[k] <- my_rf_cv(my_gapminder, 10) 
 }
+# Groups all CVs
 CVs <- c(CV_2, CV_5, CV_10)
-Neighbors <- rep(c("k = 2", "k = 5", "k = 10"), each = 30)
-ggplot(data = as.data.frame(cbind(CVs, Neighbors)), aes(x = Neighbors, y = CVs, 
-                                                        group = Neighbors)) +
-  geom_boxplot()
-mean_CV <- numeric(3)
+# Categorize CVs by number of folds
+folds <- rep(c("k = 2", "k = 5", "k = 10"), each = 30)
+# Create boxplot of various numbers of folds
+ggplot(data = as.data.frame(cbind(as.numeric(CVs), folds)), 
+       aes(x = folds, y = CVs, group = folds)) +
+  # Generates plot
+  geom_boxplot() +
+  # Creates lables
+  labs(title = "Cross-Validation Errors of Multiple Random Forests", 
+       x = "Number of Folds", y = "Cross-Validation Error") +
+  # Resets themes
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"), 
+        axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1),
+        panel.spacing.x = unit(0.75, "cm")) +
+  # Gives sensible order to boxes of folds
+  scale_x_discrete(limits = c("k = 2", "k = 5", "k = 10"))
 ```
 
+It appears that as we increase the number of folds, we increase the mean 
+cross-validation error, but the IQR actually decreases from k = 2 to k = 5, and
+increases from k = 5 to k = 10.
 
+```{r}
+# Creates vector of mean CVs for various folds
+mean_CV <- c(mean(CVs[1:30]), mean(CVs[31:60]), mean(CVs[61:90]))
+# Creates vector of sd of CVs for various folds
+sd_CV <- c(sd(CVs[1:30]), sd(CVs[31:60]), sd(CVs[61:90]))
+# Produces table of means and sds for various folds
+as.data.frame(cbind(mean_CV, sd_CV))
+
+```
+
+Again we see that the means continuosly increase with the folds, as creating 
+more and more splits must increase the distance between some predictions and
+their corresponding data points, more groups mean more points are placed into 
+groups they do not necessarily belong in. What is interesting is that 5 leafs 
+seems to minimize the standard deviation of the cross-validation error, as this 
+is the number of continents in the data which we had seen earlier plays a role 
+in the relationship between Life Expectancy and GDP per Capita.
