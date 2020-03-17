@@ -12,7 +12,7 @@
 #'   of freedom, the alternative hypothesis, and a numeric of the p-value
 #'
 #' @export
-my_t.test <- function(x, alternative, mu) {
+my_t_test <- function(x, alternative, mu) {
   # Stores degrees of freedom
   df <- length(x) - 1
   # Stores test statistic value
