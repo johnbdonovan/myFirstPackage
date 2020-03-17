@@ -7,3 +7,6 @@ test_that("my_knn_cv works mathematically", {
 test_that("k = 0 must be at least 1", {
   expect_error(my_knn_cv(my_iris[, -5], my_iris$Species, 2, 1)$train_err)
 })
+test_that("negative inputs not accepted", {
+  expect_error(my_knn_cv(my_iris[, -5], my_iris$Species, 1, -2))
+})
