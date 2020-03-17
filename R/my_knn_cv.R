@@ -17,6 +17,8 @@
 #'           my_gapminder$continent, 10, 5)
 #' my_knn_cv(my_iris[, -5], my_iris$Species, 2, 5)
 #'
+#' @import class
+#'
 #' @export
 my_knn_cv <- function(train, cl, k_nn, k_cv) {
   # Creates a fold vector to seperate data

@@ -15,6 +15,8 @@
 #' my_t_test(my_gapminder$lifeExp, "two.sided", 60)
 #' my_t_test(1:100, "two.sided", 60)
 #'
+#' @import stringr
+#'
 #' @export
 my_t_test <- function(x, alternative, mu) {
   # Stores degrees of freedom
