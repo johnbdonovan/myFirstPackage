@@ -29,8 +29,6 @@ library(myFirstPackage)
 library(tidyverse)
 library(class)
 library(randomForest)
-library(gapminder)
-data(gapminder)
 ```
 
 # Conducting a t-test
@@ -38,7 +36,6 @@ Using the LifeExp data from gapminder we will conduct a t-test of
 $H_0 : \mu = 60$
 $H_a : \mu \neq 60$
 ```{r}
-my_gapminder <- gapminder
 data_t <- my_gapminder$lifeExp
 my_t_test(data_t, "two.sided", 60)
 ```
@@ -94,8 +91,15 @@ cbind(CV, Train)
 CV_2 <- numeric(30)
 CV_5 <- numeric(30)
 CV_10<- numeric(30)
-my_rf_cv(my_gapminder, 5)
-
+for (k in 1:30) {
+  CV_2[k] <- my_rf_cv(my_gapminder, 2)
+  CV_5[k] <- my_rf_cv(my_gapminder, 5)
+  CV_10[k] <- my_rf_cv(my_gapminder, 10) 
+}
+CVs <- c(CV_2, CV_5, CV_10)
+Neighbors <- rep(c("k = 2", "k = 5", "k = 10", each = 30))
+ggplot(data = cbind(CVs, Neighbors), aes(x = Neighbors, y = CVs) ) +
+  geom_boxplot()
 ```
 
 
