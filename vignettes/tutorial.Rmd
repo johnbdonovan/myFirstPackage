@@ -29,6 +29,7 @@ also need the \texttt{tidyverse} package.
 library(myFirstPackage)
 library(gapminder)
 library(tidyverse)
+library(class)
 ```
 
 # Conducting a t-test
@@ -57,3 +58,30 @@ my_t_test(data_t, "greater", 60)
 # Creating a linear regression model
 
 Using the lifeExp data from gapminder as a response variable and gdpPercap and 
+continent as explanatory variables.
+```{r}
+my_lm(lifeExp ~ gdpPercap + continent, gapminder)
+```
+
+```{r}
+lm <- my_lm(lifeExp ~ gdpPercap + continent, gapminder)
+model <- model.matrix(lifeExp ~ gdpPercap + continent, gapminder)%*%lm$Estimate
+ggplot(data = cbind(gapminder, model), aes(x = model, y = lifeExp) ) +
+  geom_point()
+```
+
+
+# Predicting with K-nearest neighbors
+
+```{r}
+CV <- numeric(10)
+Train <- numeric(10)
+for (n in 1:10) {
+  CV[n] <- my_knn_cv(cbind(gapminder$gdpPercap, gapminder$lifeExp), 
+          gapminder$continent, n, 5)$cv_err
+  Train[n] <- my_knn_cv(cbind(gapminder$gdpPercap, gapminder$lifeExp), 
+          gapminder$continent, n, 5)$train_err
+}
+cbind(CV, Train)
+```
+

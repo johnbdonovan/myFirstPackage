@@ -20,11 +20,11 @@ my_lm <- function(formula, data) {
   Y <- model.response(frame)
   # Computes and stores the linear model estimates from the model matrix and
   # response
-  Estimate <- solve(t(x) %*% x) %*% t(x) %*% y
+  beta <- solve(t(X) %*% X) %*% t(X) %*% Y
   # Stores degrees of freedom
-  df <- length(Y) - length(Estimate)
+  df <- length(Y) - length(beta)
   # Stores the standard deviation of the data
-  sigma <- sum((y - x %*% beta)^2 / df)
+  sigma <- sum((Y - X %*% beta)^2 / df)
   # Stores the standard errors of each estimate
   se <- diag(sqrt(sigma * solve(t(x) %*% x)))
   # Stores test-statistics for each estimate
