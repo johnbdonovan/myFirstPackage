@@ -21,7 +21,7 @@ This function creates a linear regression model based on a given relation
 }
 \examples{
 my_lm(lifeExp ~ gdpPercap + continent, my_gapminder)
-my_lm(Sepal.length ~ Sepal.width, my_iris)
+my_lm(Sepal.Length ~ Sepal.Width, my_iris)
 
 }
 \keyword{inference}

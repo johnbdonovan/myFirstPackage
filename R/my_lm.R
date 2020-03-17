@@ -12,7 +12,7 @@
 #'
 #' @examples
 #' my_lm(lifeExp ~ gdpPercap + continent, my_gapminder)
-#' my_lm(Sepal.length ~ Sepal.width, my_iris)
+#' my_lm(Sepal.Length ~ Sepal.Width, my_iris)
 #'
 #' @export
 my_lm <- function(formula, data) {
