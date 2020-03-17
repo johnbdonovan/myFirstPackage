@@ -11,6 +11,8 @@ test_that("my_t_test works mathmatically", {
   expect_equal(my_t_test(c(0, 1), "greater", 0)$p_val, 0.25)
 })
 test_that("non-numeric input throws error", {
-  expect_error(my_t_test(c(0, 1), "two.sided:, a string"))
-  expect_error(my_t_test(1, "two.sided", 0))
+  expect_error(my_t_test(c(0, 1), "two.sided", "a string"))
+})
+test_that("non-string input throws error", {
+  expect_error(my_t_test(c(0, 1), 2, 0))
 })
