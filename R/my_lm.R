@@ -26,7 +26,7 @@ my_lm <- function(formula, data) {
   # Stores the standard deviation of the data
   sigma <- sum((Y - X %*% beta)^2 / df)
   # Stores the standard errors of each estimate
-  se <- diag(sqrt(sigma * solve(t(x) %*% x)))
+  se <- diag(sqrt(sigma * solve(t(X) %*% X)))
   # Stores test-statistics for each estimate
   tStats <- (beta - 0) / se
   # Stores the p-value of each corresponding test-statistic
