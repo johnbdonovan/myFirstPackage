@@ -91,5 +91,11 @@ cbind(CV, Train)
 # Predicting with Random Forest
 
 ```{r}
+CV_2 <- numeric(30)
+CV_5 <- numeric(30)
+CV_10<- numeric(30)
 my_rf_cv(my_gapminder, 5)
+
 ```
+
+

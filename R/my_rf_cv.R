@@ -29,11 +29,11 @@ my_rf_cv <- function(train, k) {
       data = data_train,
       ntree = 100)
 
-    # Calculates and stores predictions for Sepal Length
-    predictions <- as.data.frame(predict(model, data_test[, -1]))
+    # Calculates and stores predictions for lifeExp
+    predictions <- as.data.frame(predict(model, data_test[, -4]))
 
     # Calculates MSE based on predictions and test data
-    MSE[i] <- colMeans(predictions - data_test[, 1])^2
+    MSE[i] <- colMeans(predictions - data_test[, 4])^2
   }
 
   # Stores output list of mean MSE
