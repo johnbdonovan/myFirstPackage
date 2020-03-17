@@ -19,4 +19,9 @@ Data frame containing numeric values of linear model coefficients,
 This function creates a linear regression model based on a given relation
   for a given data set.
 }
+\examples{
+my_lm(lifeExp ~ gdpPercap + continent, my_gapminder)
+my_lm(Sepal.length ~ Sepal.width, my_iris)
+
+}
 \keyword{inference}

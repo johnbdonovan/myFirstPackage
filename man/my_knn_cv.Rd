@@ -23,4 +23,10 @@ List containg vector of predicted classes, and numerics of the
 This function creates a knn model as well as calculating cross-validation
   and training errors
 }
+\examples{
+my_knn_cv(cbind(my_gapminder$gdpPercap, my_gapminder$lifeExp),
+          my_gapminder$continent, 10, 5)
+my_knn_cv(my_iris[, -5], my_iris$Species, 2, 5)
+
+}
 \keyword{prediction}

@@ -19,4 +19,9 @@ List of numeric representing the average MSE error across the folds.
 This function calculates MSE erros of a random forest prediction of given
   data.
 }
+\examples{
+my_rf_cv(my_gapminder, 2)
+my_rf_cv(my_iris, 5)
+
+}
 \keyword{prediction}
