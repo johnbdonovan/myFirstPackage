@@ -23,13 +23,14 @@ Install \texttt{myFirstPackage} using:
 devtools::install_github("johnbdonovan/myFirstPackage")
 ```
 
-To begin, we load our example data set as a \texttt{gapminder} object. We will
-also need the \texttt{tidyverse} package.
+To begin, we load our example data set as a \texttt{gapminder} object.
 ```{r, message = FALSE}
 library(myFirstPackage)
-library(gapminder)
 library(tidyverse)
 library(class)
+library(randomForest)
+library(gapminder)
+data(gapminder)
 ```
 
 # Conducting a t-test
@@ -37,7 +38,8 @@ Using the LifeExp data from gapminder we will conduct a t-test of
 $H_0 : \mu = 60$
 $H_a : \mu \neq 60$
 ```{r}
-data_t <- gapminder$lifeExp
+my_gapminder <- gapminder
+data_t <- my_gapminder$lifeExp
 my_t_test(data_t, "two.sided", 60)
 ```
 
@@ -60,13 +62,14 @@ my_t_test(data_t, "greater", 60)
 Using the lifeExp data from gapminder as a response variable and gdpPercap and 
 continent as explanatory variables.
 ```{r}
-my_lm(lifeExp ~ gdpPercap + continent, gapminder)
+my_lm(lifeExp ~ gdpPercap + continent, my_gapminder)
 ```
 
 ```{r}
-lm <- my_lm(lifeExp ~ gdpPercap + continent, gapminder)
-model <- model.matrix(lifeExp ~ gdpPercap + continent, gapminder)%*%lm$Estimate
-ggplot(data = cbind(gapminder, model), aes(x = model, y = lifeExp) ) +
+lm <- my_lm(lifeExp ~ gdpPercap + continent, my_gapminder)
+model <- model.matrix(lifeExp ~ gdpPercap + continent,
+                      my_gapminder)%*%lm$Estimate
+ggplot(data = cbind(my_gapminder, model), aes(x = model, y = lifeExp) ) +
   geom_point()
 ```
 
@@ -77,11 +80,16 @@ ggplot(data = cbind(gapminder, model), aes(x = model, y = lifeExp) ) +
 CV <- numeric(10)
 Train <- numeric(10)
 for (n in 1:10) {
-  CV[n] <- my_knn_cv(cbind(gapminder$gdpPercap, gapminder$lifeExp), 
-          gapminder$continent, n, 5)$cv_err
-  Train[n] <- my_knn_cv(cbind(gapminder$gdpPercap, gapminder$lifeExp), 
-          gapminder$continent, n, 5)$train_err
+  CV[n] <- my_knn_cv(cbind(my_gapminder$gdpPercap, my_gapminder$lifeExp), 
+          my_gapminder$continent, n, 5)$cv_err
+  Train[n] <- my_knn_cv(cbind(my_gapminder$gdpPercap, my_gapminder$lifeExp), 
+          my_gapminder$continent, n, 5)$train_err
 }
 cbind(CV, Train)
 ```
 
+# Predicting with Random Forest
+
+```{r}
+my_rf_cv(my_gapminder, 5)
+```

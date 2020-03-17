@@ -25,7 +25,7 @@ my_rf_cv <- function(train, k) {
 
     # Generates random forest model
     model <- randomForest(
-      formula = Sepal.Length ~ Sepal.Width + Petal.Length + Petal.Width,
+      formula = lifeExp ~ gdpPercap,
       data = data_train,
       ntree = 100)
 
