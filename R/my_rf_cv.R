@@ -14,6 +14,8 @@
 #' my_rf_cv(my_gapminder, 2)
 #' my_rf_cv(my_iris, 5)
 #'
+#' @import randomForest
+#'
 #' @export
 my_rf_cv <- function(train, k) {
   # Creates a fold vector to seperate data
