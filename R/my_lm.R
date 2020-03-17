@@ -10,6 +10,10 @@
 #' @return Data frame containing numeric values of linear model coefficients,
 #'   standard errors, t-values, and p-values
 #'
+#' @examples
+#' my_lm(lifeExp ~ gdpPercap + continent, my_gapminder)
+#' my_lm(Sepal.length ~ Sepal.width, my_iris)
+#'
 #' @export
 my_lm <- function(formula, data) {
   # Stores a model frame of the data

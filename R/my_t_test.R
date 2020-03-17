@@ -11,6 +11,10 @@
 #' @return List containing the numerics representing test statistic and degrees
 #'   of freedom, the alternative hypothesis, and a numeric of the p-value
 #'
+#' @examples
+#' my_t_test(my_gapminder$lifeExp, "two.sided", 60)
+#' my_t_test(1:100, "two.sided", 60)
+#'
 #' @export
 my_t_test <- function(x, alternative, mu) {
   # Stores degrees of freedom

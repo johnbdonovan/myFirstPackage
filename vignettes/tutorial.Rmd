@@ -88,18 +88,20 @@ cbind(CV, Train)
 # Predicting with Random Forest
 
 ```{r}
-CV_2 <- numeric(30)
-CV_5 <- numeric(30)
-CV_10<- numeric(30)
+CV_2 <- 1:30
+CV_5 <- 1:30
+CV_10<- 1:30
 for (k in 1:30) {
   CV_2[k] <- my_rf_cv(my_gapminder, 2)
   CV_5[k] <- my_rf_cv(my_gapminder, 5)
   CV_10[k] <- my_rf_cv(my_gapminder, 10) 
 }
 CVs <- c(CV_2, CV_5, CV_10)
-Neighbors <- rep(c("k = 2", "k = 5", "k = 10", each = 30))
-ggplot(data = cbind(CVs, Neighbors), aes(x = Neighbors, y = CVs) ) +
+Neighbors <- rep(c("k = 2", "k = 5", "k = 10"), each = 30)
+ggplot(data = as.data.frame(cbind(CVs, Neighbors)), aes(x = Neighbors, y = CVs, 
+                                                        group = Neighbors)) +
   geom_boxplot()
+mean_CV <- numeric(3)
 ```
 
 

@@ -10,6 +10,10 @@
 #'
 #' @return List of numeric representing the average MSE error across the folds.
 #'
+#' @examples
+#' my_rf_cv(my_gapminder, 2)
+#' my_rf_cv(my_iris, 5)
+#'
 #' @export
 my_rf_cv <- function(train, k) {
   # Creates a fold vector to seperate data
@@ -37,7 +41,7 @@ my_rf_cv <- function(train, k) {
   }
 
   # Stores output list of mean MSE
-  output <- list("cv_err" = mean(MSE))
+  output <- mean(MSE)
   # returns output
   return(output)
 }
